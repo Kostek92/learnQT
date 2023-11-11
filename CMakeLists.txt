@@ -10,6 +10,7 @@ find_package(Qt6 6.2 REQUIRED COMPONENTS Quick)
 
 qt_add_executable(appQml9_player
     main.cpp
+	PlayerController.h PlayerController.cpp
 )
 
 qt_add_qml_module(appQml9_player
@@ -29,7 +30,7 @@ qt_add_qml_module(appQml9_player
 	assets/icons/next_icon.png
 	assets/icons/pause_icon.png
 	assets/icons/play_icon.png
-	assets/icons/previous_icon.png
+	assets/icons/previous_icon.png 
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

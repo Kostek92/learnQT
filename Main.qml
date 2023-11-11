@@ -1,6 +1,6 @@
 import QtQuick
 import QtQuick.Window
-import QtQuick.Layouts
+import com.company.PlayerController
 
 Window {
     width: 640
@@ -33,9 +33,9 @@ Window {
         }
         gradient: Gradient {
             orientation: Gradient.Horizontal
-            GradientStop { position: 0.0; color: "#1e1e1e" }
-            GradientStop { position: 0.5; color: Qt.lighter("#1e1e1e")}
-            GradientStop { position: 1.0; color: "#1e1e1e" }
+            GradientStop { position: 0.0; color: Qt.lighter("#1e1e1e") }
+            GradientStop { position: 0.5; color: "#1e1e1e"}
+            GradientStop { position: 1.0; color: Qt.lighter("#1e1e1e") }
         }
         AudioInfoBox
         {
@@ -61,7 +61,7 @@ Window {
                 verticalCenter: parent.verticalCenter
             }
             index: 1
-            artistText: qsTr("Compilaion")
+            artistText: qsTr("Compilation")
             songText: qsTr("Don't boggar me")
 
             coverImageSource: "assets/images/cover_bong_hits.png"
@@ -109,7 +109,7 @@ Window {
                 buttonSource: "assets/icons/previous_icon.png"
                 onButtonClicked:
                 {
-                    playerController.onPreviousClicked()
+                    PlayerController.onPreviousClicked()
                 }
             }
             ImageButton
@@ -117,11 +117,11 @@ Window {
                 id: buttonPlayPause
                 width: 60
                 height: 60
-                buttonSource: playerController.isPlaying ? "assets/icons/pause_icon.png" : "assets/icons/play_icon.png"
+                buttonSource: PlayerController.playing ? "assets/icons/pause_icon.png" : "assets/icons/play_icon.png"
 
                 onButtonClicked:
                 {
-                    playerController.onPlayClicked()
+                    PlayerController.onPlayPauseClicked()
                 }
             }
             ImageButton
@@ -132,30 +132,10 @@ Window {
                 buttonSource: "assets/icons/next_icon.png"
                 onButtonClicked:
                 {
-                    playerController.onNextClicked()
+                    PlayerController.onNextClicked()
                 }
             }
         }
     }
-    QtObject
-    {
-        id: playerController
-        readonly property int songCount: 3
-        property int currentSongIndex: 0
-        property bool isPlaying: false
-
-        function onNextClicked()
-        {
-            currentSongIndex = (currentSongIndex + 1) % songCount
-        }
-        function onPreviousClicked()
-        {
-            currentSongIndex = currentSongIndex == 0 ? songCount - 1 : currentSongIndex - 1
-        }
-        function onPlayClicked()
-        {
-            isPlaying = !isPlaying
-        }
-    }
-
 }
+

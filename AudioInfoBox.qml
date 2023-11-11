@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
+import com.company.PlayerController
 
 Item {
     id: root
@@ -7,9 +8,9 @@ Item {
     property alias coverImageSource: cdCover.source
     property alias artistText : artist.text
     property alias songText : song.text
-    property int index
+    required property int index
+    visible: PlayerController.currentSongIndex === index
 
-    visible: playerController.currentSongIndex == index
     Image
     {
         id: cdCover
@@ -32,7 +33,7 @@ Item {
             bottom: parent.verticalCenter           
             left: cdCover.right
             right: parent.right
-            margins: 20
+            margins: 15
         }
         wrapMode: Text.WordWrap
         font
@@ -41,7 +42,6 @@ Item {
             bold: true
         }
         color: "white"
-
     }
 
     Text {
@@ -51,7 +51,7 @@ Item {
             top: parent.verticalCenter
             left: artist.left
             right: parent.right
-            topMargin:20
+            topMargin: 15
         }
         font.pixelSize: 20
         color: "lightgray"

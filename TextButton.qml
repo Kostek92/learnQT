@@ -1,6 +1,5 @@
 import QtQuick
 
-
 Rectangle
 {
     property color baseColor: "gray"
