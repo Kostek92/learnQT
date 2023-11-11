@@ -46,10 +46,10 @@ Window {
                 verticalCenter: parent.verticalCenter
             }
             index: 0
-            artistText: qsTr("Wolfgang amadeus mozart")
-            songText: qsTr("Eine kleine nachtmusik")
+            artistText: qsTr("ACDC")
+            songText: qsTr("Back in black")
 
-            coverImageSource: "red"
+            coverImageSource: "assets/images/cover_acdc.png"
         }
 
         AudioInfoBox
@@ -62,9 +62,9 @@ Window {
             }
             index: 1
             artistText: qsTr("Compilaion")
-            songText: qsTr("Bong hits")
+            songText: qsTr("Don't boggar me")
 
-            coverImageSource: "green"
+            coverImageSource: "assets/images/cover_bong_hits.png"
         }
 
         AudioInfoBox
@@ -79,7 +79,7 @@ Window {
             artistText: qsTr("Nirvana")
             songText: qsTr("My girl")
 
-            coverImageSource: "plum"
+            coverImageSource: "assets/images/cover_nirvana.png"
         }
     }
 
@@ -100,36 +100,36 @@ Window {
         {
             id: buttonsRow
             anchors.centerIn: parent
-            spacing: 10
-            TextButton
+            spacing: 20
+            ImageButton
             {
                 id: buttonPreviousSong
                 width: 60
-                height: 50
-                buttonText: "<"
+                height: 60
+                buttonSource: "assets/icons/previous_icon.png"
                 onButtonClicked:
                 {
                     playerController.onPreviousClicked()
                 }
             }
-            TextButton
+            ImageButton
             {
                 id: buttonPlayPause
-                width: 100
-                height: 50
-                buttonText: playerController.isPlaying ? "Pause" : "Play"
+                width: 60
+                height: 60
+                buttonSource: playerController.isPlaying ? "assets/icons/pause_icon.png" : "assets/icons/play_icon.png"
 
                 onButtonClicked:
                 {
                     playerController.onPlayClicked()
                 }
             }
-            TextButton
+            ImageButton
             {
                 id: buttonNextSong
                 width: 60
-                height: 50
-                buttonText: ">"
+                height: 60
+                buttonSource: "assets/icons/next_icon.png"
                 onButtonClicked:
                 {
                     playerController.onNextClicked()

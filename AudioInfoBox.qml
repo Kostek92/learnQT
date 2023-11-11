@@ -4,13 +4,13 @@ import QtQuick.Layouts
 Item {
     id: root
 
-    property alias coverImageSource: cdCover.color
+    property alias coverImageSource: cdCover.source
     property alias artistText : artist.text
     property alias songText : song.text
     property int index
 
     visible: playerController.currentSongIndex == index
-    Rectangle
+    Image
     {
         id: cdCover
 
@@ -22,6 +22,7 @@ Item {
         }
         width: 150
         height: 150
+        mipmap: true
     }
 
     Text {

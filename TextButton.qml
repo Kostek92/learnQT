@@ -4,7 +4,7 @@ import QtQuick
 Rectangle
 {
     property color baseColor: "gray"
-    property string buttonText: ""
+    property alias buttonText: name.text
     signal buttonClicked()
 
     id: button

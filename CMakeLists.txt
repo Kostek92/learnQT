@@ -18,6 +18,18 @@ qt_add_qml_module(appQml9_player
     QML_FILES Main.qml
 	QML_FILES AudioInfoBox.qml
 	QML_FILES TextButton.qml
+	QML_FILES ImageButton.qml
+
+	RESOURCES
+	assets/images/cover_acdc.png
+	assets/images/cover_bong_hits.png
+	assets/images/cover_nirvana.png
+	assets/images/cover_pink_floyd.png
+	assets/icons/app_icon.ico
+	assets/icons/next_icon.png
+	assets/icons/pause_icon.png
+	assets/icons/play_icon.png
+	assets/icons/previous_icon.png
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
