@@ -1,15 +1,21 @@
 import QtQuick
 import QtQuick.Layouts
 import com.company.PlayerController
+import Qml9_player
 
 Item {
     id: root
 
-    property alias coverImageSource: cdCover.source
-    property alias artistText : artist.text
-    property alias songText : song.text
-    required property int index
-    visible: PlayerController.currentSongIndex === index
+    readonly property AudioInfo audioInfo: AudioInfo {}
+    visible: PlayerController.currentSongIndex === audioInfo.index
+
+    onVisibleChanged:
+    {
+        if(visible)
+        {
+            PlayerController.onSourceChanged(audioInfo.songPath)
+        }
+    }
 
     Image
     {
@@ -23,11 +29,13 @@ Item {
         }
         width: 150
         height: 150
+        source: audioInfo.imagePath
         mipmap: true
     }
 
     Text {
         id: artist
+        text: audioInfo.author
         anchors
         {
             bottom: parent.verticalCenter           
@@ -45,7 +53,8 @@ Item {
     }
 
     Text {
-        id: song
+        id: title
+        text: audioInfo.title
         anchors
         {
             top: parent.verticalCenter

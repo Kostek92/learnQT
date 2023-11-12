@@ -2,6 +2,7 @@
 #define PLAYERCONTROLLER_H
 
 #include <QObject>
+#include <QMediaPlayer>
 
 class PlayerController : public QObject
 {
@@ -20,6 +21,7 @@ public slots:
     void onNextClicked();
     void onPreviousClicked();
     void onPlayPauseClicked();
+    void onSourceChanged(const QUrl& newSongPath);
 
 signals:
     void isPlayingChanged();
@@ -31,9 +33,10 @@ private:
     void setCurrentSongIndex(int newCurrentSongIndex);
     void setSongsCount(int newSongsCount);
 
-    bool _playing = false;
-    int _currentSongIndex = 0;
-    int _songsCount = 3;
+    bool m_playing = false;
+    int m_currentSongIndex = 0;
+    int m_songsCount = 3;
+    QMediaPlayer m_player;
 
 };
 

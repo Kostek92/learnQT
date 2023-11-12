@@ -45,11 +45,14 @@ Window {
                 right: parent.right
                 verticalCenter: parent.verticalCenter
             }
-            index: 0
-            artistText: qsTr("ACDC")
-            songText: qsTr("Back in black")
-
-            coverImageSource: "assets/images/cover_acdc.png"
+            audioInfo
+            {
+                index: 0
+                author: qsTr("ACDC")
+                title: qsTr("Let Me Put My Love Into You")
+                imagePath: "assets/images/cover_acdc.png"
+                songPath: "qrc:/Qml9_player/assets/music/let_me_put_my_love_into_you.mp3"
+            }
         }
 
         AudioInfoBox
@@ -60,11 +63,14 @@ Window {
                 right: parent.right
                 verticalCenter: parent.verticalCenter
             }
-            index: 1
-            artistText: qsTr("Compilation")
-            songText: qsTr("Don't boggar me")
-
-            coverImageSource: "assets/images/cover_bong_hits.png"
+            audioInfo
+            {
+                index: 1
+                author: qsTr("Compilation")
+                title: qsTr("Don't boggar me")
+                imagePath: "assets/images/cover_bong_hits.png"
+                songPath: "qrc:/Qml9_player/assets/music/dont_boggart_me.mp3"
+            }
         }
 
         AudioInfoBox
@@ -75,11 +81,14 @@ Window {
                 right: parent.right
                 verticalCenter: parent.verticalCenter
             }
-            index: 2
-            artistText: qsTr("Nirvana")
-            songText: qsTr("My girl")
-
-            coverImageSource: "assets/images/cover_nirvana.png"
+            audioInfo
+            {
+                index: 2
+                author: qsTr("Nirvana")
+                title: qsTr("My girl")
+                imagePath: "assets/images/cover_nirvana.png"
+                songPath: "qrc:/Qml9_player/assets/music/my_girl.mp3"
+            }
         }
     }
 
