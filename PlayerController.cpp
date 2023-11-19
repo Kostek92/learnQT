@@ -1,10 +1,15 @@
 #include "playercontroller.h"
+#include "AudioInfo.h"
 #include <QAudioOutput>
 
 PlayerController::PlayerController(QObject *parent)
-    : QObject{parent}
+    : QAbstractListModel {parent}
 {
     m_player.setAudioOutput(new QAudioOutput(&m_player));
+    onAddAudio("Let me put my love into you", "ACDC", QUrl("qrc:/Qml9_player/assets/music/let_me_put_my_love_into_you.mp3"), QUrl("assets/images/cover_acdc.png"));
+    onAddAudio("Don't boggart me", "Bong hits", QUrl("qrc:/Qml9_player/assets/music/dont_boggart_me.mp3"), QUrl("assets/images/cover_bong_hits.png"));
+    onAddAudio("My girl", "Nirvana", QUrl("qrc:/Qml9_player/assets/music/my_girl.mp3"), QUrl("assets/images/cover_nirvana.png"));
+    setAudioInfo(m_audioInfoList.first());
 }
 
 void PlayerController::setPlaying(bool newPlaying)
@@ -20,47 +25,36 @@ bool PlayerController::isPlaying() const
     return m_playing;
 }
 
-int PlayerController::getCurrentSongIndex() const
-{
-    return m_currentSongIndex;
-}
-
-void PlayerController::setCurrentSongIndex(int newCurrentSongIndex)
-{
-    if (m_currentSongIndex == newCurrentSongIndex)
-        return;
-    m_currentSongIndex = newCurrentSongIndex;
-    emit currentSongIndexChanged();
-}
-
-int PlayerController::getSongsCount() const
-{
-    return m_songsCount;
-}
-
-void PlayerController::setSongsCount(int newSongsCount)
-{
-    if (m_songsCount == newSongsCount)
-        return;
-    m_songsCount = newSongsCount;
-    emit songsCountChanged();
-}
 
 void PlayerController::onNextClicked()
 {
-    setCurrentSongIndex((m_currentSongIndex + 1) % m_songsCount);
+    auto currentSongIndex = m_audioInfoList.indexOf(m_currentAudioInfo);
+    if ( currentSongIndex < 0)
+    {
+        qFatal() << "Current song not on the list";
+    }
+    auto newSongIndex = ((currentSongIndex + 1) % m_audioInfoList.size());
+    setAudioInfo(m_audioInfoList.at(newSongIndex));
+
 }
 
 void PlayerController::onPreviousClicked()
 {
-    if (m_currentSongIndex == 0)
+    auto currentSongIndex = m_audioInfoList.indexOf(m_currentAudioInfo);
+    if ( currentSongIndex < 0)
     {
-        setCurrentSongIndex(m_songsCount - 1);
+        qFatal() << "Current song not on the list";
+    }
+    int newSongIndex = 0;
+    if (currentSongIndex == 0)
+    {
+        newSongIndex = m_audioInfoList.size() - 1;
     }
     else
     {
-        setCurrentSongIndex(m_currentSongIndex - 1);
+        newSongIndex = currentSongIndex - 1;
     }
+    setAudioInfo(m_audioInfoList.at(newSongIndex));
 }
 
 void PlayerController::onPlayPauseClicked()
@@ -91,4 +85,75 @@ void PlayerController::onSourceChanged(const QUrl &newSongPath)
     }
 }
 
+void PlayerController::onAddAudio(const QString &title, const QString &author, const QUrl &songPath, const QUrl &imagePath)
+{
+    beginInsertRows(QModelIndex(), m_audioInfoList.length(), m_audioInfoList.length());
+    m_audioInfoList.push_back(new AudioInfo(title, author, songPath, imagePath, &m_player));
+    endInsertRows();
+}
 
+
+int PlayerController::rowCount(const QModelIndex &parent) const
+{
+    Q_UNUSED(parent);
+    return m_audioInfoList.size();
+}
+
+QVariant PlayerController::data(const QModelIndex &index, int role) const
+{
+    if (index.isValid() && index.row() >=0 && index.row() < m_audioInfoList.size())
+    {
+        auto* audioInfoElem = m_audioInfoList.at(index.row());
+        switch (role) {
+        case AudioTitleRole:
+            return audioInfoElem->getTitle();
+            break;
+        case AudioAuthorRole:
+            return audioInfoElem->getAuthor();
+            break;
+        case AudioImagePathRole:
+            return audioInfoElem->getImagePath();
+            break;
+        case AudioSongPathRole:
+            return audioInfoElem->getSongPath();
+            break;
+        default:
+            qFatal() << "Role" << role << "not defined";
+            break;
+        }
+    }
+    return QVariant();
+}
+
+
+QHash<int, QByteArray> PlayerController::roleNames() const
+{
+    return QHash<int, QByteArray> { {AudioTitleRole, "audioTitle"},
+                                  {AudioAuthorRole, "audioAuthor"},
+                                  {AudioImagePathRole, "audioImagePath"},
+                                  {AudioSongPathRole, "audioSongPath"}};
+}
+
+AudioInfo *PlayerController::audioInfo() const
+{
+    return m_currentAudioInfo;
+}
+
+void PlayerController::setAudioInfo(AudioInfo *newAudioInfo)
+{
+    if (m_currentAudioInfo == newAudioInfo)
+        return;
+    m_currentAudioInfo = newAudioInfo;
+    emit audioInfoChanged();
+
+    if(m_currentAudioInfo)
+    {
+        onSourceChanged(m_currentAudioInfo->getSongPath());
+    }
+    else
+    {
+        m_player.stop();
+        m_player.setSource(QUrl());
+        setPlaying(false);
+    }
+}

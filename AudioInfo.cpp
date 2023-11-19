@@ -1,22 +1,18 @@
 #include "AudioInfo.h"
 
 AudioInfo::AudioInfo(QObject *parent)
+{
+
+}
+
+AudioInfo::AudioInfo(const QString &title, const QString &author, const QUrl &songPath, const QUrl &imagePath, QObject *parent)
     : QObject{parent}
+    , m_title(title)
+    , m_author(author)
+    , m_songPath(songPath)
+    , m_imagePath(imagePath)
 {
 
-}
-
-int AudioInfo::getIndex() const
-{
-    return m_index;
-}
-
-void AudioInfo::setIndex(int newIndex)
-{
-    if (m_index == newIndex)
-        return;
-    m_index = newIndex;
-    emit indexChanged();
 }
 
 QString AudioInfo::getTitle() const

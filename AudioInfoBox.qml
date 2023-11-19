@@ -6,7 +6,7 @@ import Qml9_player
 Item {
     id: root
 
-    readonly property AudioInfo audioInfo: AudioInfo {}
+    property AudioInfo audioInfo: PlayerController.audioInfo
     visible: PlayerController.currentSongIndex === audioInfo.index
 
     onVisibleChanged:

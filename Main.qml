@@ -4,7 +4,7 @@ import com.company.PlayerController
 
 Window {
     width: 640
-    height: 480
+    height: 640
     visible: true
     title: qsTr("Playa")
 
@@ -15,11 +15,28 @@ Window {
             left: parent.left
             right: parent.right
         }
-        height: 70
+        height: 60
 
         gradient: Gradient {
             GradientStop { position: 0.0; color: "#5F8575" }
             GradientStop { position: 1.0; color: Qt.lighter("#5F8575") }
+        }
+
+        ImageButton
+        {
+            source: "assets/icons/menu_icon.png"
+            anchors
+            {
+                right: topbar.right
+                top: topbar.top
+                bottom: topbar.bottom
+                margins: 15
+            }
+            width: 40
+            onButtonClicked:
+            {
+                playlist.isVisible = !playlist.isVisible
+            }
         }
     }
 
@@ -45,51 +62,14 @@ Window {
                 right: parent.right
                 verticalCenter: parent.verticalCenter
             }
-            audioInfo
-            {
-                index: 0
-                author: qsTr("ACDC")
-                title: qsTr("Let Me Put My Love Into You")
-                imagePath: "assets/images/cover_acdc.png"
-                songPath: "qrc:/Qml9_player/assets/music/let_me_put_my_love_into_you.mp3"
-            }
         }
+    }
 
-        AudioInfoBox
-        {
-            anchors
-            {
-                left: parent.left
-                right: parent.right
-                verticalCenter: parent.verticalCenter
-            }
-            audioInfo
-            {
-                index: 1
-                author: qsTr("Compilation")
-                title: qsTr("Don't boggar me")
-                imagePath: "assets/images/cover_bong_hits.png"
-                songPath: "qrc:/Qml9_player/assets/music/dont_boggart_me.mp3"
-            }
-        }
-
-        AudioInfoBox
-        {
-            anchors
-            {
-                left: parent.left
-                right: parent.right
-                verticalCenter: parent.verticalCenter
-            }
-            audioInfo
-            {
-                index: 2
-                author: qsTr("Nirvana")
-                title: qsTr("My girl")
-                imagePath: "assets/images/cover_nirvana.png"
-                songPath: "qrc:/Qml9_player/assets/music/my_girl.mp3"
-            }
-        }
+    PlaylistPanel
+    {
+        id: playlist
+        anchors.top: topbar.bottom
+        x: playlist.isVisible ? parent.width - playlist.width : parent.width
     }
 
     Rectangle{

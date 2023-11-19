@@ -1,43 +1,54 @@
 #ifndef PLAYERCONTROLLER_H
 #define PLAYERCONTROLLER_H
 
-#include <QObject>
+#include <QAbstractListModel>
 #include <QMediaPlayer>
 
-class PlayerController : public QObject
+class AudioInfo;
+class PlayerController : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(bool playing READ isPlaying NOTIFY isPlayingChanged)
-    Q_PROPERTY(int currentSongIndex READ getCurrentSongIndex NOTIFY currentSongIndexChanged)
-    Q_PROPERTY(int songsCount READ getSongsCount NOTIFY songsCountChanged)
+    Q_PROPERTY(AudioInfo* audioInfo READ audioInfo WRITE setAudioInfo NOTIFY audioInfoChanged)
 
 public:
+    enum Roles
+    {
+        AudioTitleRole = Qt::UserRole + 1,
+        AudioAuthorRole,
+        AudioImagePathRole,
+        AudioSongPathRole,
+    };
+
     explicit PlayerController(QObject *parent = nullptr);
     bool isPlaying() const;
-    int getCurrentSongIndex() const;
-    int getSongsCount() const;
+    AudioInfo *audioInfo() const;
+    void setAudioInfo(AudioInfo *newAudioInfo);
+
+
+    // QAbstractItemModel interface
+    int rowCount(const QModelIndex &parent) const override;
+    QVariant data(const QModelIndex &index, int role) const override;
+    QHash<int, QByteArray> roleNames() const override;
 
 public slots:
     void onNextClicked();
     void onPreviousClicked();
     void onPlayPauseClicked();
     void onSourceChanged(const QUrl& newSongPath);
+    void onAddAudio(const QString& title, const QString& author, const QUrl& songPath, const QUrl& imagePath);
 
 signals:
     void isPlayingChanged();
-    void currentSongIndexChanged();
-    void songsCountChanged();
+    void audioInfoChanged();
 
 private:
     void setPlaying( bool playing);
-    void setCurrentSongIndex(int newCurrentSongIndex);
-    void setSongsCount(int newSongsCount);
 
     bool m_playing = false;
-    int m_currentSongIndex = 0;
-    int m_songsCount = 3;
     QMediaPlayer m_player;
-
+    QList<AudioInfo*> m_audioInfoList;
+    AudioInfo *m_currentAudioInfo = nullptr;
 };
 
 #endif // PLAYERCONTROLLER_H

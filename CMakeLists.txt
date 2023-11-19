@@ -16,10 +16,12 @@ qt_add_executable(appQml9_player
 qt_add_qml_module(appQml9_player
     URI Qml9_player
     VERSION 1.0
-    QML_FILES Main.qml
-	QML_FILES AudioInfoBox.qml
-	QML_FILES TextButton.qml
-	QML_FILES ImageButton.qml
+	QML_FILES
+	Main.qml
+	AudioInfoBox.qml
+	TextButton.qml
+	ImageButton.qml
+	PlaylistPanel.qml
 
 	SOURCES AudioInfo.h AudioInfo.cpp
 
@@ -29,11 +31,14 @@ qt_add_qml_module(appQml9_player
 	assets/images/cover_nirvana.png
 	assets/images/cover_pink_floyd.png
 
+	assets/icons/add_icon.png
 	assets/icons/app_icon.ico
 	assets/icons/next_icon.png
 	assets/icons/pause_icon.png
 	assets/icons/play_icon.png
 	assets/icons/previous_icon.png
+	assets/icons/menu_icon.png
+	assets/icons/trash_icon.png
 
 	assets/music/dont_boggart_me.mp3
 	assets/music/let_me_put_my_love_into_you.mp3

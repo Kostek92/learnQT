@@ -8,7 +8,6 @@ class AudioInfo : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
-    Q_PROPERTY(int index READ getIndex WRITE setIndex NOTIFY indexChanged REQUIRED)
     Q_PROPERTY(QString title READ getTitle WRITE setTitle NOTIFY  titleChanged)
     Q_PROPERTY(QString author READ getAuthor WRITE setAuthor  NOTIFY authorChanged)
     Q_PROPERTY(QUrl imagePath READ getImagePath WRITE setImagePath NOTIFY imagePathChanged)
@@ -17,9 +16,7 @@ class AudioInfo : public QObject
 
 public:
     explicit AudioInfo(QObject *parent = nullptr);
-
-    int getIndex() const;
-    void setIndex(int newIndex);
+    explicit AudioInfo(const QString &title, const QString &author, const QUrl &songPath, const QUrl &imagePath, QObject *parent = nullptr);
 
     QString getTitle() const;
     void setTitle(const QString &newTitle);
@@ -42,7 +39,6 @@ signals:
     void songPathChanged();
 
 private:
-    int m_index;
     QString m_title;
     QString m_author;
     QUrl m_imagePath;
