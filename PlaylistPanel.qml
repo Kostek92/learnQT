@@ -55,6 +55,7 @@ Rectangle {
             required property string audioAuthor
             required property string audioSongPath
             required property string audioImagePath
+            required property int index
 
             id: songsDelegate
             anchors
@@ -93,6 +94,14 @@ Rectangle {
                     font.pixelSize: 12
                     color: "lightgray"
                     wrapMode: Text.WordWrap
+                }
+            }
+
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked:{
+                    PlayerController.onSetAudioByIndex(index)
                 }
             }
 

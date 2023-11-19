@@ -9,7 +9,7 @@ class PlayerController : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(bool playing READ isPlaying NOTIFY isPlayingChanged)
-    Q_PROPERTY(AudioInfo* audioInfo READ audioInfo WRITE setAudioInfo NOTIFY audioInfoChanged)
+    Q_PROPERTY(AudioInfo* audioInfo READ audioInfo NOTIFY audioInfoChanged)
 
 public:
     enum Roles
@@ -37,6 +37,7 @@ public slots:
     void onPlayPauseClicked();
     void onSourceChanged(const QUrl& newSongPath);
     void onAddAudio(const QString& title, const QString& author, const QUrl& songPath, const QUrl& imagePath);
+    void onSetAudioByIndex(int index);
 
 signals:
     void isPlayingChanged();

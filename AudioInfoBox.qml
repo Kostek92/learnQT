@@ -7,16 +7,6 @@ Item {
     id: root
 
     property AudioInfo audioInfo: PlayerController.audioInfo
-    visible: PlayerController.currentSongIndex === audioInfo.index
-
-    onVisibleChanged:
-    {
-        if(visible)
-        {
-            PlayerController.onSourceChanged(audioInfo.songPath)
-        }
-    }
-
     Image
     {
         id: cdCover

@@ -31,8 +31,6 @@ public:
     void setSongPath(const QUrl &newSongPath);
 
 signals:
-
-    void indexChanged();
     void titleChanged();
     void authorChanged();
     void imagePathChanged();

@@ -92,6 +92,14 @@ void PlayerController::onAddAudio(const QString &title, const QString &author, c
     endInsertRows();
 }
 
+void PlayerController::onSetAudioByIndex(int index)
+{
+    if(index >= 0 && index < m_audioInfoList.size())
+    {
+        setAudioInfo(m_audioInfoList.at(index));
+    }
+}
+
 
 int PlayerController::rowCount(const QModelIndex &parent) const
 {
@@ -101,7 +109,7 @@ int PlayerController::rowCount(const QModelIndex &parent) const
 
 QVariant PlayerController::data(const QModelIndex &index, int role) const
 {
-    if (index.isValid() && index.row() >=0 && index.row() < m_audioInfoList.size())
+    if(checkIndex(index, CheckIndexOption::IndexIsValid))
     {
         auto* audioInfoElem = m_audioInfoList.at(index.row());
         switch (role) {
