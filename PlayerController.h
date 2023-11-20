@@ -48,11 +48,14 @@ private:
     void setPlaying( bool playing);
     bool isIndexValid(int index) const;
     int getCurrentSongIndex() const;
+    int getNextSongIndex() const;
+    int getPreviousSongIndex() const;
 
     bool m_playing = false;
     QMediaPlayer m_player;
     QList<AudioInfo*> m_audioInfoList;
     AudioInfo *m_currentAudioInfo = nullptr;
+    static constexpr int INVALID_SONG_INDEX = -1;
 };
 
 #endif // PLAYERCONTROLLER_H

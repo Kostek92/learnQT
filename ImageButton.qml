@@ -9,6 +9,7 @@ Image
     signal buttonClicked()
 
     mipmap: true        //Help improve quality of .png
+    fillMode: Image.PreserveAspectFit
     opacity: getOpacity()
 
     MouseArea

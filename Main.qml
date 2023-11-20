@@ -90,6 +90,8 @@ Window {
             id: buttonsRow
             anchors.centerIn: parent
             spacing: 20
+            enabled: !!PlayerController.audioInfo
+            opacity: enabled ? 1.0 : 0.4
             ImageButton
             {
                 id: buttonPreviousSong
@@ -104,6 +106,7 @@ Window {
             ImageButton
             {
                 id: buttonPlayPause
+                enabled: !!PlayerController.audioInfo
                 width: 60
                 height: 60
                 buttonSource: PlayerController.playing ? "assets/icons/pause_icon.png" : "assets/icons/play_icon.png"
@@ -116,6 +119,7 @@ Window {
             ImageButton
             {
                 id: buttonNextSong
+                enabled: !!PlayerController.audioInfo
                 width: 60
                 height: 60
                 buttonSource: "assets/icons/next_icon.png"

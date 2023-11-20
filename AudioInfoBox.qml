@@ -7,6 +7,7 @@ Item {
     id: root
 
     property AudioInfo audioInfo: PlayerController.audioInfo
+    visible: !!audioInfo
     Image
     {
         id: cdCover
@@ -19,13 +20,13 @@ Item {
         }
         width: 150
         height: 150
-        source: audioInfo.imagePath
+        source: !!audioInfo ? audioInfo.imagePath : ""
         mipmap: true
     }
 
     Text {
         id: artist
-        text: audioInfo.author
+        text: !!audioInfo ? audioInfo.author : ""
         anchors
         {
             bottom: parent.verticalCenter           
@@ -44,7 +45,7 @@ Item {
 
     Text {
         id: title
-        text: audioInfo.title
+        text: !!audioInfo ? audioInfo.title : ""
         anchors
         {
             top: parent.verticalCenter

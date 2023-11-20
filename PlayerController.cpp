@@ -9,7 +9,6 @@ PlayerController::PlayerController(QObject *parent)
     onAddAudio("Let me put my love into you", "ACDC", QUrl("qrc:/Qml9_player/assets/music/let_me_put_my_love_into_you.mp3"), QUrl("assets/images/cover_acdc.png"));
     onAddAudio("Don't boggart me", "Bong hits", QUrl("qrc:/Qml9_player/assets/music/dont_boggart_me.mp3"), QUrl("assets/images/cover_bong_hits.png"));
     onAddAudio("My girl", "Nirvana", QUrl("qrc:/Qml9_player/assets/music/my_girl.mp3"), QUrl("assets/images/cover_nirvana.png"));
-    setAudioInfo(m_audioInfoList.first());
 }
 
 void PlayerController::setPlaying(bool newPlaying)
@@ -35,22 +34,22 @@ int PlayerController::getCurrentSongIndex() const
     return currentSongIndex;
 }
 
-bool PlayerController::isPlaying() const
+int PlayerController::getNextSongIndex() const
 {
-    return m_playing;
-}
-
-
-void PlayerController::onNextClicked()
-{
+    if (m_audioInfoList.empty())
+    {
+        return INVALID_SONG_INDEX;
+    }
     const auto currentSongIndex = getCurrentSongIndex();
-    const auto newSongIndex = ((currentSongIndex + 1) % m_audioInfoList.size());
-    setAudioInfo(m_audioInfoList.at(newSongIndex));
-
+    return (currentSongIndex + 1) % m_audioInfoList.size();
 }
 
-void PlayerController::onPreviousClicked()
+int PlayerController::getPreviousSongIndex() const
 {
+    if (m_audioInfoList.empty())
+    {
+        return INVALID_SONG_INDEX;
+    }
     const auto currentSongIndex = getCurrentSongIndex();
     int newSongIndex = 0;
     if (currentSongIndex == 0)
@@ -61,7 +60,22 @@ void PlayerController::onPreviousClicked()
     {
         newSongIndex = currentSongIndex - 1;
     }
-    setAudioInfo(m_audioInfoList.at(newSongIndex));
+    return newSongIndex;
+}
+
+bool PlayerController::isPlaying() const
+{
+    return m_playing;
+}
+
+void PlayerController::onNextClicked()
+{
+    setAudioInfo(m_audioInfoList.at(getNextSongIndex()));
+}
+
+void PlayerController::onPreviousClicked()
+{
+    setAudioInfo(m_audioInfoList.at(getPreviousSongIndex()));
 }
 
 void PlayerController::onPlayPauseClicked()
@@ -96,6 +110,10 @@ void PlayerController::onAddAudio(const QString &title, const QString &author, c
 {
     beginInsertRows(QModelIndex(), m_audioInfoList.length(), m_audioInfoList.length());
     m_audioInfoList.push_back(new AudioInfo(title, author, songPath, imagePath, &m_player));
+    if(m_audioInfoList.size() == 1)
+    {
+        setAudioInfo(m_audioInfoList.first());
+    }
     endInsertRows();
 }
 
@@ -115,15 +133,21 @@ void PlayerController::onRemoveAudioByIndex(int index)
 {
     if(isIndexValid(index))
     {
-        const auto currentSongIndex = getCurrentSongIndex();
         AudioInfo *toRemove = m_audioInfoList[index];
-        if (currentSongIndex == index)
+        if(isPlaying())
         {
-            if(isPlaying())
-            {
-                onPlayPauseClicked();
+            onPlayPauseClicked();
+        }
+        if (toRemove == m_currentAudioInfo) {
+            if (m_audioInfoList.length() > 1) {
+                if (index != 0) {
+                    setAudioInfo(m_audioInfoList[index - 1]);
+                } else {
+                    setAudioInfo(m_audioInfoList[index + 1]);
+                }
+            } else {
+                setAudioInfo(nullptr);
             }
-            onSetAudioByIndex(0);
         }
 
         beginRemoveRows(QModelIndex(), index, index);

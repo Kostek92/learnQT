@@ -75,20 +75,23 @@ Rectangle {
                 }
                 Text {
                     id: title
-                    text: songsDelegate.audioTitle
-                    wrapMode: Text.WordWrap
+                    width: audioTexts.width
+                    elide: Text.ElideRight
+                    minimumPixelSize: 12
                     font.pixelSize: 16
                     font.bold: true
-
                     color: "white"
+                    text: songsDelegate.audioTitle
                 }
 
                 Text {
                     id: author
-                    text: songsDelegate.audioAuthor
+                    width: audioTexts.width
+                    elide: Text.ElideRight
+                    minimumPixelSize: 8
                     font.pixelSize: 12
                     color: "lightgray"
-                    wrapMode: Text.WordWrap
+                    text: songsDelegate.audioAuthor
                 }
             }
 
@@ -103,7 +106,6 @@ Rectangle {
             ImageButton {
                 id: binIcon
                 source: "assets/icons/trash_icon.png"
-                width:24
                 anchors
                 {
                     top:parent.top
