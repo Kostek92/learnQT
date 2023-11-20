@@ -29,7 +29,7 @@ qt_add_qml_module(appQml9_player
 	assets/images/cover_acdc.png
 	assets/images/cover_bong_hits.png
 	assets/images/cover_nirvana.png
-	assets/images/cover_pink_floyd.png
+	assets/images/cover_ostr.jpg
 
 	assets/icons/add_icon.png
 	assets/icons/app_icon.ico
@@ -43,6 +43,7 @@ qt_add_qml_module(appQml9_player
 	assets/music/dont_boggart_me.mp3
 	assets/music/let_me_put_my_love_into_you.mp3
 	assets/music/my_girl.mp3
+	assets/music/spalic_gniew.mp3
 
 )
 

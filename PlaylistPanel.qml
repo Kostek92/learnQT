@@ -50,6 +50,7 @@ Rectangle {
         model: PlayerController
         delegate:
         Rectangle {
+            id: songsDelegate
 
             required property string audioTitle
             required property string audioAuthor
@@ -57,13 +58,7 @@ Rectangle {
             required property string audioImagePath
             required property int index
 
-            id: songsDelegate
-            anchors
-            {
-                left: parent.left
-                right:parent.right
-            }
-
+            width: playlistListview.width
             height: 50
             color: "#1e1e1e"
             Column
@@ -116,6 +111,9 @@ Rectangle {
                     right: parent.right
                     margins: 5
                 }
+                onButtonClicked: {
+                    PlayerController.onRemoveAudioByIndex(index);
+                }
             }
         }
     }
@@ -135,6 +133,10 @@ Rectangle {
         height: 32
 
         source: "assets/icons/add_icon.png"
+        onButtonClicked:
+        {
+            PlayerController.onAddAudio("Spalic gniew", "O.S.T.R", "qrc:/Qml9_player/assets/music/spalic_gniew.mp3", "assets/images/cover_ostr.jpg");
+        }
     }
 
 }

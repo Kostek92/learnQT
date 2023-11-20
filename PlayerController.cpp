@@ -20,6 +20,21 @@ void PlayerController::setPlaying(bool newPlaying)
     emit isPlayingChanged();
 }
 
+bool PlayerController::isIndexValid(int index) const
+{
+    return index >= 0 && index < m_audioInfoList.size();
+}
+
+int PlayerController::getCurrentSongIndex() const
+{
+    auto currentSongIndex = m_audioInfoList.indexOf(m_currentAudioInfo);
+    if ( currentSongIndex < 0)
+    {
+        qFatal() << "Current song not on the list";
+    }
+    return currentSongIndex;
+}
+
 bool PlayerController::isPlaying() const
 {
     return m_playing;
@@ -28,23 +43,15 @@ bool PlayerController::isPlaying() const
 
 void PlayerController::onNextClicked()
 {
-    auto currentSongIndex = m_audioInfoList.indexOf(m_currentAudioInfo);
-    if ( currentSongIndex < 0)
-    {
-        qFatal() << "Current song not on the list";
-    }
-    auto newSongIndex = ((currentSongIndex + 1) % m_audioInfoList.size());
+    const auto currentSongIndex = getCurrentSongIndex();
+    const auto newSongIndex = ((currentSongIndex + 1) % m_audioInfoList.size());
     setAudioInfo(m_audioInfoList.at(newSongIndex));
 
 }
 
 void PlayerController::onPreviousClicked()
 {
-    auto currentSongIndex = m_audioInfoList.indexOf(m_currentAudioInfo);
-    if ( currentSongIndex < 0)
-    {
-        qFatal() << "Current song not on the list";
-    }
+    const auto currentSongIndex = getCurrentSongIndex();
     int newSongIndex = 0;
     if (currentSongIndex == 0)
     {
@@ -94,12 +101,37 @@ void PlayerController::onAddAudio(const QString &title, const QString &author, c
 
 void PlayerController::onSetAudioByIndex(int index)
 {
-    if(index >= 0 && index < m_audioInfoList.size())
+    if(isIndexValid(index))
     {
         setAudioInfo(m_audioInfoList.at(index));
+        if(!isPlaying())
+        {
+            onPlayPauseClicked();
+        }
     }
 }
 
+void PlayerController::onRemoveAudioByIndex(int index)
+{
+    if(isIndexValid(index))
+    {
+        const auto currentSongIndex = getCurrentSongIndex();
+        AudioInfo *toRemove = m_audioInfoList[index];
+        if (currentSongIndex == index)
+        {
+            if(isPlaying())
+            {
+                onPlayPauseClicked();
+            }
+            onSetAudioByIndex(0);
+        }
+
+        beginRemoveRows(QModelIndex(), index, index);
+        m_audioInfoList.removeAt(index);
+        toRemove->deleteLater();
+        endRemoveRows();
+    }
+}
 
 int PlayerController::rowCount(const QModelIndex &parent) const
 {

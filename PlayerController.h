@@ -38,6 +38,7 @@ public slots:
     void onSourceChanged(const QUrl& newSongPath);
     void onAddAudio(const QString& title, const QString& author, const QUrl& songPath, const QUrl& imagePath);
     void onSetAudioByIndex(int index);
+    void onRemoveAudioByIndex(int index);
 
 signals:
     void isPlayingChanged();
@@ -45,6 +46,8 @@ signals:
 
 private:
     void setPlaying( bool playing);
+    bool isIndexValid(int index) const;
+    int getCurrentSongIndex() const;
 
     bool m_playing = false;
     QMediaPlayer m_player;
