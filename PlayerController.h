@@ -25,7 +25,6 @@ public:
     AudioInfo *audioInfo() const;
     void setAudioInfo(AudioInfo *newAudioInfo);
 
-
     // QAbstractItemModel interface
     int rowCount(const QModelIndex &parent) const override;
     QVariant data(const QModelIndex &index, int role) const override;
@@ -43,6 +42,7 @@ public slots:
 signals:
     void isPlayingChanged();
     void audioInfoChanged();
+    void audioInfoIndexChanged(int index);
 
 private:
     void setPlaying( bool playing);

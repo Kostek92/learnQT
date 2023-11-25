@@ -34,6 +34,13 @@ Rectangle {
         }
     }
 
+    Connections {
+        target: PlayerController
+        function onAudioInfoIndexChanged(index) {
+            playlistListview.currentIndex = index
+        }
+    }
+
     ListView {
         id: playlistListview
 
@@ -46,12 +53,14 @@ Rectangle {
             right: parent.right
             margins: 10
         }
+        clip:true
 
         model: PlayerController
+
         delegate:
         Rectangle {
             id: songsDelegate
-
+            
             required property string audioTitle
             required property string audioAuthor
             required property string audioSongPath
@@ -60,7 +69,8 @@ Rectangle {
 
             width: playlistListview.width
             height: 50
-            color: "#1e1e1e"
+            color: ListView.isCurrentItem ? Qt.darker("#5F8575") : "1e1e1e"
+
             Column
             {
                 id: audioTexts
@@ -119,7 +129,6 @@ Rectangle {
             }
         }
     }
-
 
     ImageButton
     {

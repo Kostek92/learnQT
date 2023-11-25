@@ -70,6 +70,7 @@ bool PlayerController::isPlaying() const
 
 void PlayerController::onNextClicked()
 {
+
     setAudioInfo(m_audioInfoList.at(getNextSongIndex()));
 }
 
@@ -213,6 +214,7 @@ void PlayerController::setAudioInfo(AudioInfo *newAudioInfo)
     if(m_currentAudioInfo)
     {
         onSourceChanged(m_currentAudioInfo->getSongPath());
+        emit audioInfoIndexChanged(getCurrentSongIndex());
     }
     else
     {
