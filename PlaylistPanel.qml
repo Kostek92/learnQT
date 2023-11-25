@@ -54,6 +54,7 @@ Rectangle {
             margins: 10
         }
         clip:true
+        focus:true
 
         model: PlayerController
 
@@ -126,6 +127,21 @@ Rectangle {
                 onButtonClicked: {
                     PlayerController.onRemoveAudioByIndex(index);
                 }
+            }
+        }
+
+        Keys.onPressed: (event)=>{
+            if(event.key === Qt.Key_Enter || event.key === Qt.Key_Space)
+                PlayerController.onPlayPauseClicked()
+        }
+        Keys.onDownPressed:{
+            if(isVisible){
+                PlayerController.onNextClicked()
+            }
+        }
+        Keys.onUpPressed:{
+            if(isVisible){
+                PlayerController.onPreviousClicked()
             }
         }
     }

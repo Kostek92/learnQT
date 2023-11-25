@@ -70,17 +70,22 @@ bool PlayerController::isPlaying() const
 
 void PlayerController::onNextClicked()
 {
-
+    if (m_audioInfoList.empty())
+        return;
     setAudioInfo(m_audioInfoList.at(getNextSongIndex()));
 }
 
 void PlayerController::onPreviousClicked()
 {
+    if (m_audioInfoList.empty())
+        return;
     setAudioInfo(m_audioInfoList.at(getPreviousSongIndex()));
 }
 
 void PlayerController::onPlayPauseClicked()
 {
+    if (m_audioInfoList.empty())
+        return;
     setPlaying(!m_playing);
     if(m_playing)
     {
